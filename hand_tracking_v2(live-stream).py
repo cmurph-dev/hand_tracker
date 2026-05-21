@@ -1,11 +1,21 @@
-import cv2
-import mediapipe as mp
-import time
 
-ptime = 0
-BaseOptions = mp.tasks.BaseOptions
-HandLandmarker = mp.tasks.vision.HandLandmarker
-HandLandmarkerOptions = mp.tasks.vision.HandLandmarkerOptions
+"""
+An updated version of the hand tracking module that utilizes the live stream capabilities
+of the MediaPipe library. It will open the camera and display the live feed.The camera itself
+is flipped to mirror the user's movements, making it easier to interact with the hand tracking
+module. For example, raising your right hand will reflect on the screen, with it being the
+right hand raised. The user can press the 'q' key to exit the program.
+"""
+
+import cv2 # OpenCV for video capture and display
+import mediapipe as mp # MediaPipe for hand tracking
+import time # Time for calculating FPS
+
+
+ptime = 0 
+BaseOptions = mp.tasks.BaseOptions 
+HandLandmarker = mp.tasks.vision.HandLandmarker 
+HandLandmarkerOptions = mp.tasks.vision.HandLandmarkerOptions 
 VisionRunningMode = mp.tasks.vision.RunningMode
 
 latest_result = None
@@ -33,8 +43,10 @@ HAND_CONNECTIONS = [
     (0,17)
 ]
 
+# Initialize the camera
 cap = cv2.VideoCapture(0)
 
+# Create the hand landmarker and process the video feed
 with HandLandmarker.create_from_options(options) as landmarker:
     while True:
         ret, frame = cap.read()
@@ -47,10 +59,10 @@ with HandLandmarker.create_from_options(options) as landmarker:
         # Convert BGR to RGB
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-
+        # Create MediaPipe Image from the RGB frame
         mp_image = mp.Image(
             image_format=mp.ImageFormat.SRGB,
-            data=frame
+            data=rgb_frame #this or data=frame works?
         )
 
         timestamp_ms = int(time.time() * 1000)
@@ -58,15 +70,14 @@ with HandLandmarker.create_from_options(options) as landmarker:
         # ASYNC DETECTION
         landmarker.detect_async(mp_image, timestamp_ms)
 
-        # DRAW RESULTS
+        # Draw hand landmarks and connections on the frame
         if latest_result and latest_result.hand_landmarks:
-
             h, w, _ = frame.shape
-
+            
+            # Draw landmarks and connections
             for hand_landmarks in latest_result.hand_landmarks:
                 points = []
                 for landmark in hand_landmarks:
-
                     x = int(landmark.x * w)
                     y = int(landmark.y * h)    
                     points.append((x, y))
@@ -98,6 +109,7 @@ with HandLandmarker.create_from_options(options) as landmarker:
             2
         )
 
+        # Display
         cv2.imshow("LIVE STREAM", frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
