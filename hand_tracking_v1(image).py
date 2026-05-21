@@ -4,7 +4,7 @@ landmarks in real-time using a webcam. It will open the camera and display the l
 The camera itself is flipped to mirror the user's movements, making it easier to interact 
 with the hand tracking module. For example, raising your right hand will reflect on the
 screen, with it being the right hand raised. The user can press the 'd' key to exit the
-program. """
+program."""
 
 # Camera Stuff
 import cv2 as cv

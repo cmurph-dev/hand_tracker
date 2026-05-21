@@ -70,7 +70,7 @@ with HandLandmarker.create_from_options(options) as landmarker:
                     x = int(landmark.x * w)
                     y = int(landmark.y * h)    
                     points.append((x, y))
-                    cv2.circle(frame, (x, y), 5, (0,255,0), -1)
+                    cv2.circle(frame, (x, y), 10, (0,0,255), -1)
             
                 for connection in HAND_CONNECTIONS:
                     start_idx = connection[0]
