@@ -1,0 +1,3 @@
+This is really just a testing/staging area for an upcoming development project that I plan to build in collaboration with others at the Robert Day Sciences Center (RDSC) at Claremont McKenna College (CMC) in Claremont, California. With RDSC expecting a large influx of equipment and tools to the previously unfilled Innovation Studio, all the ideas on whiteboards written by students and faculty alike felt less of a distant dream and more like a reality. 
+
+This is the first step in building a project that will aid with visualization for students and faculty alike, launching RDSC and CMC to the forefront of innovation in scientific academia.
