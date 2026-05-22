@@ -1,17 +1,54 @@
 
 """
-An updated version of the hand tracking module that utilizes the live stream capabilities
-of the MediaPipe library. It will open the camera and display the live feed.The camera itself
-is flipped to mirror the user's movements, making it easier to interact with the hand tracking
-module. For example, raising your right hand will reflect on the screen, with it being the
-right hand raised. The user can press the 'q' key to exit the program.
+===========================================================
+ Script Name : hand_tracking_v2(live-stream).py
+ Description : This is a hand tracking module that uses the MediaPipe library to detect and track hand 
+               landmarks in real-time using a camera. It will open the camera and display the live feed.
+               Holding up a hand will show the landmarks and connections on the screen. For example, 
+               raising your right hand will reflect on the screen.
+ Author      : Christian Murph
+ Created On  : 2026-05-19
+ Last Modified: 2026-05-21
+ Version     : 2.0.1
+ Python Ver  : 3.13.13 (Microsoft Store)
+ License     : ??? (What do I put here?)
+===========================================================
+
+Usage:
+    1. Ensure you have the required dependencies installed (see Dependencies section).
+    2. Run the script using Python 3.13.13 or later. (I guess?)
+    3. The webcam will open, and you should see a live feed with hand tracking.
+    4. Hold up your hand(s) in front of the camera to see the landmarks and connections.
+    5. Press the 'q' key to exit the program.
+
+Notes:
+    - I actually have no idea how accurate the dependencies table is,
+      I just put what I coded this in, but I have no idea if it will
+      work on other versions.
+
+Dependencies:
+    - Python 3.13.13 (Microsoft Store)
+    - MediaPipe 0.10.35
+    - opencv-python 4.13.0.92
+
+Change Log:
+    v1.0   - Initial release (See hand_tracking_v1(image).py)
+    v2.0   - Updated to use MediaPipe's live stream mode for improved performance and responsiveness.
+    v2.0.1 - Minor code cleanup and documentation updates, alongside updated headers and comments for better readability.
+             No functional changes were made in this version.
 """
 
+# =========================
+# Import required libraries
+# =========================
 import cv2 # OpenCV for video capture and display
 import mediapipe as mp # MediaPipe for hand tracking
 import time # Time for calculating FPS
 
 
+# =========================
+# Main Code Starts Here
+# =========================
 ptime = 0 
 BaseOptions = mp.tasks.BaseOptions 
 HandLandmarker = mp.tasks.vision.HandLandmarker 
@@ -43,8 +80,7 @@ HAND_CONNECTIONS = [
     (0,17)
 ]
 
-# Initialize the camera
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0) # 0 is the default camera (webcam), 1 is the second camera (if available)
 
 # Create the hand landmarker and process the video feed
 with HandLandmarker.create_from_options(options) as landmarker:
